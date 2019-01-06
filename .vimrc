@@ -29,7 +29,10 @@ set backspace=indent,eol,start "バックスペースが効かなくなる事象
 "#####NERDTree設定#####
 nnoremap <leader>o :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 1
-nnoremap <leader>f <C-w>w
+let g:NERDTreeShowBookmarks=1
+nnoremap <Tab> <C-w>w
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 "#####コマンド設定#####
 "" インサートモードの時に C-j でノーマルモードに戻る
