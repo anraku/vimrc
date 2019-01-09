@@ -31,8 +31,11 @@ nnoremap <leader>o :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 1
 let g:NERDTreeShowBookmarks=1
 nnoremap <Tab> <C-w>w
+" ファイル指定せずvimを起動したらNERDTreeを表示する
+" ファイル指定して起動した場合はNERDTreeを表示しない
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "#####コマンド設定#####
 "" インサートモードの時に C-j でノーマルモードに戻る
@@ -44,15 +47,20 @@ map <C-p> :cprevious<CR>
 " クイックフィクスリスト閉じる
 nnoremap <leader>a :cclose<CR>
 
-" #####Golangの設定#####
+" #####vim-goの設定#####
 " ショートカット
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <Leader>c  <Plug>(go-coverage-toggle)
+au FileType go nmap <leader>s <Plug>(go-def-split)
+au FileType go nmap <leader>v <Plug>(go-def-vertical)
+au FileType go nmap <silent> <leader>fs :GoFillStruct<CR>
+au FileType go nmap <silent> <leader>ei :GoIfErr<CR>
+au FileType go nmap <silent> <leader>ip :GoImpl<CR>
 
 let g:go_highlight_types = 1
-let g:go_highlight_function_calls = 1
+" let g:go_highlight_function_calls = 1
 
 " 保存時にgoimportsを実行する
 let g:go_fmt_command = "goimports"
